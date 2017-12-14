@@ -14,7 +14,7 @@ navigation: 1
 
 ---
 
-Finding physics beyond the Standard Model is one of the main goals of particle physics. Effective field theories are a powerful tool to seperate physics at vastly different energy scales, such as new physics at the multi-TeV scale, weak interactions at the electroweak scale, and strong interactions at the hadronic scale. New physics effects are described at low energies by local, non-renormalizable operators. The coupling strenghts of these operators – the Wilson coefficients – parametrize the new physics effects in precision measurements.
+Finding physics beyond the Standard Model is one of the main goals of particle physics. Effective field theories are a powerful tool to seperate physics at vastly different energy scales, such as new physics at the multi-TeV scale, weak interactions at the electroweak scale, and strong interactions at the hadronic scale. New physics effects are described at low energies by local, non-renormalizable operators. The coupling strengths of these operators – the Wilson coefficients – parametrize the new physics effects in precision measurements.
 
 WCxf is a data exchange format to interface different tools in particle physics that deal with Wilson coefficients beyond the Standard Model. The format is defined in this write-up:
 
