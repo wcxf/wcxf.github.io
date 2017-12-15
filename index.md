@@ -19,7 +19,9 @@ Finding physics beyond the Standard Model is one of the main goals of particle p
 WCxf is a data exchange format to interface different tools in particle physics that deal with Wilson coefficients beyond the Standard Model. The format is defined in this write-up:
 
 > *WCxf: an exchange format for Wilson coefficients beyond the Standard Model*  
-> J. Aebischer, I. Brivio, A. Celis, J. Evans, Y. Jiang, J. Kumar, X. Pan, W. Porod, J. Rosiek, D. Shih, F. Staub, D. Straub, D. Dyk, A. Vicente
-> [arXiv:1712.xxxxx](https://arxiv.org/abs/1712.xxxxx)
+> J. Aebischer, I. Brivio, A. Celis, J. Evans, Y. Jiang, J. Kumar, X. Pan, W. Porod, J. Rosiek, D. Shih, F. Staub, D. Straub, D. Dyk, A. Vicente  
+> [arXiv:1712.05298](https://arxiv.org/abs/1712.05298)
 
 This web page provides an overview of the existing [EFTs and bases](bases.html), [implementations](codes.html) in public codes, instructions how to [contribute](contribute.html), and documentation for the [Python](python.html) and [command-line](cli.html) tools.
+
+Associated code as well as EFT and basis definition files can be foud [on Github](https://github.com/wcxf).

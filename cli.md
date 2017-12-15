@@ -43,3 +43,7 @@ wcxf validate wc my_coeffs.yml
 ```
 
 It accepts input files in YAML or JSON format.
+
+## Source
+
+The source code can be found [on Github](https://github.com/wcxf/wcxf-python).

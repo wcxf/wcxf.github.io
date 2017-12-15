@@ -13,6 +13,10 @@ pip3 install wcxf
 ```
 This also installs the [command line interface](cli.html).
 
+## Source
+
+The source code can be found [on Github](https://github.com/wcxf/wcxf-python).
+
 ## Classes
 
 The `wcxf` package provides three main classes to interact with EFT, basis and Wilson coefficient files, namely `wcxf.EFT`, `wcxf.Basis`, and `wcxf.WC`.
