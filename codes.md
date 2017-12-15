@@ -6,7 +6,7 @@ navigation: 4
 
 # Codes implementing WCxf
 
-This an alphabetical list of open source tools with an importer or exporter for Wilson coefficients in WCxf format. If you have a code to add to this list, [edit this page on Github]().
+This an alphabetical list of open source tools with an importer or exporter for Wilson coefficients in WCxf format. If you have a code to add to this list, [edit this page on Github](https://github.com/wcxf/wcxf.github.io/blob/master/codes.md).
 
 ## Overview
 
