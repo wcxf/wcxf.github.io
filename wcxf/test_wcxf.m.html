@@ -1201,7 +1201,7 @@ table {
     <span class="k">def</span> <span class="nf">test_translator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># A trivial translator translating from MyBasis 1 to MyBasis 2</span>
         <span class="nd">@wcxf.translator</span><span class="p">(</span><span class="s1">&#39;MyEFT&#39;</span><span class="p">,</span> <span class="s1">&#39;MyBasis 1&#39;</span><span class="p">,</span> <span class="s1">&#39;MyBasis 2&#39;</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">x</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">((</span><span class="s1">&#39;MyEFT&#39;</span><span class="p">,</span> <span class="s1">&#39;MyBasis 1&#39;</span><span class="p">,</span> <span class="s1">&#39;MyBasis 2&#39;</span><span class="p">),</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">Translator</span><span class="o">.</span><span class="n">instances</span><span class="p">)</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;wcxf&#39;</span><span class="p">,</span> <span class="s1">&#39;data/test.wcs.yml&#39;</span><span class="p">)</span>
@@ -1223,7 +1223,7 @@ table {
     <span class="k">def</span> <span class="nf">test_matcher</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># A trivial translator translating from MyBasis 1 to MyBasis 2</span>
         <span class="nd">@wcxf.matcher</span><span class="p">(</span><span class="s1">&#39;MyEFT&#39;</span><span class="p">,</span> <span class="s1">&#39;MyBasis 1&#39;</span><span class="p">,</span> <span class="s1">&#39;MyOtherEFT&#39;</span><span class="p">,</span> <span class="s1">&#39;MyOtherBasis 1&#39;</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">x</span>
         <span class="c1"># self.assertIn((&#39;MyEFT&#39;, &#39;MyBasis 1&#39;, &#39;MyBasis 2&#39;), wcxf.Translator.instances)</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;wcxf&#39;</span><span class="p">,</span> <span class="s1">&#39;data/test.wcs.yml&#39;</span><span class="p">)</span>
@@ -1327,7 +1327,7 @@ in order to be run.</p>
     <span class="k">def</span> <span class="nf">test_translator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># A trivial translator translating from MyBasis 1 to MyBasis 2</span>
         <span class="nd">@wcxf.translator</span><span class="p">(</span><span class="s1">&#39;MyEFT&#39;</span><span class="p">,</span> <span class="s1">&#39;MyBasis 1&#39;</span><span class="p">,</span> <span class="s1">&#39;MyBasis 2&#39;</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">x</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">((</span><span class="s1">&#39;MyEFT&#39;</span><span class="p">,</span> <span class="s1">&#39;MyBasis 1&#39;</span><span class="p">,</span> <span class="s1">&#39;MyBasis 2&#39;</span><span class="p">),</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">Translator</span><span class="o">.</span><span class="n">instances</span><span class="p">)</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;wcxf&#39;</span><span class="p">,</span> <span class="s1">&#39;data/test.wcs.yml&#39;</span><span class="p">)</span>
@@ -1349,7 +1349,7 @@ in order to be run.</p>
     <span class="k">def</span> <span class="nf">test_matcher</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># A trivial translator translating from MyBasis 1 to MyBasis 2</span>
         <span class="nd">@wcxf.matcher</span><span class="p">(</span><span class="s1">&#39;MyEFT&#39;</span><span class="p">,</span> <span class="s1">&#39;MyBasis 1&#39;</span><span class="p">,</span> <span class="s1">&#39;MyOtherEFT&#39;</span><span class="p">,</span> <span class="s1">&#39;MyOtherBasis 1&#39;</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">x</span>
         <span class="c1"># self.assertIn((&#39;MyEFT&#39;, &#39;MyBasis 1&#39;, &#39;MyBasis 2&#39;), wcxf.Translator.instances)</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;wcxf&#39;</span><span class="p">,</span> <span class="s1">&#39;data/test.wcs.yml&#39;</span><span class="p">)</span>
@@ -3661,7 +3661,7 @@ block, allowing further test code to be executed.</p></div>
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">test_matcher</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="c1"># A trivial translator translating from MyBasis 1 to MyBasis 2</span>
     <span class="nd">@wcxf.matcher</span><span class="p">(</span><span class="s1">&#39;MyEFT&#39;</span><span class="p">,</span> <span class="s1">&#39;MyBasis 1&#39;</span><span class="p">,</span> <span class="s1">&#39;MyOtherEFT&#39;</span><span class="p">,</span> <span class="s1">&#39;MyOtherBasis 1&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">x</span>
     <span class="c1"># self.assertIn((&#39;MyEFT&#39;, &#39;MyBasis 1&#39;, &#39;MyBasis 2&#39;), wcxf.Translator.instances)</span>
     <span class="n">f</span> <span class="o">=</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;wcxf&#39;</span><span class="p">,</span> <span class="s1">&#39;data/test.wcs.yml&#39;</span><span class="p">)</span>
@@ -3697,7 +3697,7 @@ block, allowing further test code to be executed.</p></div>
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">test_translator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="c1"># A trivial translator translating from MyBasis 1 to MyBasis 2</span>
     <span class="nd">@wcxf.translator</span><span class="p">(</span><span class="s1">&#39;MyEFT&#39;</span><span class="p">,</span> <span class="s1">&#39;MyBasis 1&#39;</span><span class="p">,</span> <span class="s1">&#39;MyBasis 2&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">x</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">((</span><span class="s1">&#39;MyEFT&#39;</span><span class="p">,</span> <span class="s1">&#39;MyBasis 1&#39;</span><span class="p">,</span> <span class="s1">&#39;MyBasis 2&#39;</span><span class="p">),</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">Translator</span><span class="o">.</span><span class="n">instances</span><span class="p">)</span>
     <span class="n">f</span> <span class="o">=</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;wcxf&#39;</span><span class="p">,</span> <span class="s1">&#39;data/test.wcs.yml&#39;</span><span class="p">)</span>

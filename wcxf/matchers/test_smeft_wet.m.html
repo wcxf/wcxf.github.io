@@ -1053,13 +1053,15 @@ table {
     <li class="set"><h3><a href="#header-variables">Module variables</a></h3>
       
   <ul>
-    <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.C_SMEFT_random">C_SMEFT_random</a></li>
+    <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.C_Warsaw_random">C_Warsaw_random</a></li>
     <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.basis">basis</a></li>
     <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.d">d</a></li>
     <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.name">name</a></li>
     <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.sector">sector</a></li>
-    <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.v_SMEFT_random">v_SMEFT_random</a></li>
-    <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.wc_SMEFT_random">wc_SMEFT_random</a></li>
+    <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.v_Warsaw_random">v_Warsaw_random</a></li>
+    <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.wc_Warsaw_minimal1">wc_Warsaw_minimal1</a></li>
+    <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.wc_Warsaw_minimal2">wc_Warsaw_minimal2</a></li>
+    <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.wc_Warsaw_random">wc_Warsaw_random</a></li>
     <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.wcs">wcs</a></li>
   </ul>
 
@@ -1136,7 +1138,10 @@ table {
     <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.TestSMEFTWET.skipTest">skipTest</a></li>
     <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.TestSMEFTWET.subTest">subTest</a></li>
     <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.TestSMEFTWET.tearDown">tearDown</a></li>
-    <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.TestSMEFTWET.test_smeft_wet">test_smeft_wet</a></li>
+    <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.TestSMEFTWET.test_warsaw_Bern">test_warsaw_Bern</a></li>
+    <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.TestSMEFTWET.test_warsaw_EOS">test_warsaw_EOS</a></li>
+    <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.TestSMEFTWET.test_warsaw_flavio">test_warsaw_flavio</a></li>
+    <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.TestSMEFTWET.test_warsaw_jms">test_warsaw_jms</a></li>
     <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.TestSMEFTWET.setUpClass">setUpClass</a></li>
     <li class="mono"><a href="#wcxf.matchers.test_smeft_wet.TestSMEFTWET.tearDownClass">tearDownClass</a></li>
   </ul>
@@ -1172,21 +1177,49 @@ table {
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">89</span><span class="p">)</span>
 
 <span class="c1"># generate a random WC instance for the SMEFT Warsaw basis</span>
-<span class="n">C_SMEFT_random</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">C_Warsaw_random</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="n">basis</span> <span class="o">=</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">Basis</span><span class="p">[</span><span class="s1">&#39;SMEFT&#39;</span><span class="p">,</span> <span class="s1">&#39;Warsaw&#39;</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">sector</span><span class="p">,</span> <span class="n">wcs</span> <span class="ow">in</span> <span class="n">basis</span><span class="o">.</span><span class="n">sectors</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">wcs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-         <span class="n">C_SMEFT_random</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+         <span class="n">C_Warsaw_random</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
          <span class="k">if</span> <span class="s1">&#39;real&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">d</span> <span class="ow">or</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;real&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
-             <span class="n">C_SMEFT_random</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1j</span><span class="o">*</span><span class="mf">1e-6</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
-<span class="n">v_SMEFT_random</span> <span class="o">=</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">WC</span><span class="o">.</span><span class="n">dict2values</span><span class="p">(</span><span class="n">C_SMEFT_random</span><span class="p">)</span>
-<span class="n">wc_SMEFT_random</span> <span class="o">=</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">WC</span><span class="p">(</span><span class="s1">&#39;SMEFT&#39;</span><span class="p">,</span> <span class="s1">&#39;Warsaw&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">160</span><span class="p">,</span>
-                          <span class="n">values</span><span class="o">=</span><span class="n">v_SMEFT_random</span><span class="p">)</span>
+             <span class="n">C_Warsaw_random</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1j</span><span class="o">*</span><span class="mf">1e-6</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+<span class="n">v_Warsaw_random</span> <span class="o">=</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">WC</span><span class="o">.</span><span class="n">dict2values</span><span class="p">(</span><span class="n">C_Warsaw_random</span><span class="p">)</span>
+<span class="n">wc_Warsaw_random</span> <span class="o">=</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">WC</span><span class="p">(</span><span class="s1">&#39;SMEFT&#39;</span><span class="p">,</span> <span class="s1">&#39;Warsaw&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">160</span><span class="p">,</span>
+                           <span class="n">values</span><span class="o">=</span><span class="n">v_Warsaw_random</span><span class="p">)</span>
+<span class="n">wc_Warsaw_minimal1</span> <span class="o">=</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">WC</span><span class="p">(</span><span class="s1">&#39;SMEFT&#39;</span><span class="p">,</span> <span class="s1">&#39;Warsaw&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">160</span><span class="p">,</span>
+                             <span class="n">values</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">})</span>
+<span class="n">wc_Warsaw_minimal2</span> <span class="o">=</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">WC</span><span class="p">(</span><span class="s1">&#39;SMEFT&#39;</span><span class="p">,</span> <span class="s1">&#39;Warsaw&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">160</span><span class="p">,</span>
+                             <span class="n">values</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;ed_1123&#39;</span><span class="p">:</span>  <span class="p">{</span><span class="s1">&#39;Re&#39;</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">}})</span>
 
 <span class="k">class</span> <span class="nc">TestSMEFTWET</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">test_smeft_wet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">wc_WET_random</span> <span class="o">=</span> <span class="n">wc_SMEFT_random</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;WET&#39;</span><span class="p">,</span> <span class="s1">&#39;JMS&#39;</span><span class="p">)</span>
-        <span class="n">wc_WET_random</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">test_warsaw_jms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">wcW</span> <span class="ow">in</span> <span class="p">[</span><span class="n">wc_Warsaw_random</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal1</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal2</span><span class="p">]:</span>
+            <span class="n">wc</span> <span class="o">=</span> <span class="n">wcW</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;WET&#39;</span><span class="p">,</span> <span class="s1">&#39;JMS&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">eft</span><span class="p">,</span> <span class="s1">&#39;WET&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="s1">&#39;JMS&#39;</span><span class="p">)</span>
+            <span class="n">wc</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">test_warsaw_flavio</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">wcW</span> <span class="ow">in</span> <span class="p">[</span><span class="n">wc_Warsaw_random</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal1</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal2</span><span class="p">]:</span>
+            <span class="n">wc</span> <span class="o">=</span> <span class="n">wcW</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;WET&#39;</span><span class="p">,</span> <span class="s1">&#39;flavio&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">eft</span><span class="p">,</span> <span class="s1">&#39;WET&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="s1">&#39;flavio&#39;</span><span class="p">)</span>
+            <span class="n">wc</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">test_warsaw_EOS</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">wcW</span> <span class="ow">in</span> <span class="p">[</span><span class="n">wc_Warsaw_random</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal1</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal2</span><span class="p">]:</span>
+            <span class="n">wc</span> <span class="o">=</span> <span class="n">wcW</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;WET&#39;</span><span class="p">,</span> <span class="s1">&#39;EOS&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">eft</span><span class="p">,</span> <span class="s1">&#39;WET&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="s1">&#39;EOS&#39;</span><span class="p">)</span>
+            <span class="n">wc</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">test_warsaw_Bern</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">wcW</span> <span class="ow">in</span> <span class="p">[</span><span class="n">wc_Warsaw_random</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal1</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal2</span><span class="p">]:</span>
+            <span class="n">wc</span> <span class="o">=</span> <span class="n">wcW</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;WET&#39;</span><span class="p">,</span> <span class="s1">&#39;Bern&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">eft</span><span class="p">,</span> <span class="s1">&#39;WET&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="s1">&#39;Bern&#39;</span><span class="p">)</span>
+            <span class="n">wc</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
 </pre></div>
 
   </div>
@@ -1196,7 +1229,7 @@ table {
   <section id="section-items">
     <h2 class="section-title" id="header-variables">Module variables</h2>
       <div class="item">
-      <p id="wcxf.matchers.test_smeft_wet.C_SMEFT_random" class="name">var <span class="ident">C_SMEFT_random</span></p>
+      <p id="wcxf.matchers.test_smeft_wet.C_Warsaw_random" class="name">var <span class="ident">C_Warsaw_random</span></p>
       
   
   <div class="source_cont">
@@ -1236,7 +1269,7 @@ table {
 
       </div>
       <div class="item">
-      <p id="wcxf.matchers.test_smeft_wet.v_SMEFT_random" class="name">var <span class="ident">v_SMEFT_random</span></p>
+      <p id="wcxf.matchers.test_smeft_wet.v_Warsaw_random" class="name">var <span class="ident">v_Warsaw_random</span></p>
       
   
   <div class="source_cont">
@@ -1244,7 +1277,23 @@ table {
 
       </div>
       <div class="item">
-      <p id="wcxf.matchers.test_smeft_wet.wc_SMEFT_random" class="name">var <span class="ident">wc_SMEFT_random</span></p>
+      <p id="wcxf.matchers.test_smeft_wet.wc_Warsaw_minimal1" class="name">var <span class="ident">wc_Warsaw_minimal1</span></p>
+      
+  
+  <div class="source_cont">
+</div>
+
+      </div>
+      <div class="item">
+      <p id="wcxf.matchers.test_smeft_wet.wc_Warsaw_minimal2" class="name">var <span class="ident">wc_Warsaw_minimal2</span></p>
+      
+  
+  <div class="source_cont">
+</div>
+
+      </div>
+      <div class="item">
+      <p id="wcxf.matchers.test_smeft_wet.wc_Warsaw_random" class="name">var <span class="ident">wc_Warsaw_random</span></p>
       
   
   <div class="source_cont">
@@ -1296,9 +1345,33 @@ in order to be run.</p>
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-wcxf.matchers.test_smeft_wet.TestSMEFTWET', this);">Show source &equiv;</a></p>
   <div id="source-wcxf.matchers.test_smeft_wet.TestSMEFTWET" class="source">
     <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">TestSMEFTWET</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">test_smeft_wet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">wc_WET_random</span> <span class="o">=</span> <span class="n">wc_SMEFT_random</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;WET&#39;</span><span class="p">,</span> <span class="s1">&#39;JMS&#39;</span><span class="p">)</span>
-        <span class="n">wc_WET_random</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">test_warsaw_jms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">wcW</span> <span class="ow">in</span> <span class="p">[</span><span class="n">wc_Warsaw_random</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal1</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal2</span><span class="p">]:</span>
+            <span class="n">wc</span> <span class="o">=</span> <span class="n">wcW</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;WET&#39;</span><span class="p">,</span> <span class="s1">&#39;JMS&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">eft</span><span class="p">,</span> <span class="s1">&#39;WET&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="s1">&#39;JMS&#39;</span><span class="p">)</span>
+            <span class="n">wc</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">test_warsaw_flavio</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">wcW</span> <span class="ow">in</span> <span class="p">[</span><span class="n">wc_Warsaw_random</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal1</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal2</span><span class="p">]:</span>
+            <span class="n">wc</span> <span class="o">=</span> <span class="n">wcW</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;WET&#39;</span><span class="p">,</span> <span class="s1">&#39;flavio&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">eft</span><span class="p">,</span> <span class="s1">&#39;WET&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="s1">&#39;flavio&#39;</span><span class="p">)</span>
+            <span class="n">wc</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">test_warsaw_EOS</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">wcW</span> <span class="ow">in</span> <span class="p">[</span><span class="n">wc_Warsaw_random</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal1</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal2</span><span class="p">]:</span>
+            <span class="n">wc</span> <span class="o">=</span> <span class="n">wcW</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;WET&#39;</span><span class="p">,</span> <span class="s1">&#39;EOS&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">eft</span><span class="p">,</span> <span class="s1">&#39;WET&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="s1">&#39;EOS&#39;</span><span class="p">)</span>
+            <span class="n">wc</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">test_warsaw_Bern</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">wcW</span> <span class="ow">in</span> <span class="p">[</span><span class="n">wc_Warsaw_random</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal1</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal2</span><span class="p">]:</span>
+            <span class="n">wc</span> <span class="o">=</span> <span class="n">wcW</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;WET&#39;</span><span class="p">,</span> <span class="s1">&#39;Bern&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">eft</span><span class="p">,</span> <span class="s1">&#39;WET&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="s1">&#39;Bern&#39;</span><span class="p">)</span>
+            <span class="n">wc</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
 </pre></div>
 
   </div>
@@ -3494,19 +3567,97 @@ block, allowing further test code to be executed.</p></div>
   
             
   <div class="item">
-    <div class="name def" id="wcxf.matchers.test_smeft_wet.TestSMEFTWET.test_smeft_wet">
-    <p>def <span class="ident">test_smeft_wet</span>(</p><p>self)</p>
+    <div class="name def" id="wcxf.matchers.test_smeft_wet.TestSMEFTWET.test_warsaw_Bern">
+    <p>def <span class="ident">test_warsaw_Bern</span>(</p><p>self)</p>
     </div>
     
 
     
   
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-wcxf.matchers.test_smeft_wet.TestSMEFTWET.test_smeft_wet', this);">Show source &equiv;</a></p>
-  <div id="source-wcxf.matchers.test_smeft_wet.TestSMEFTWET.test_smeft_wet" class="source">
-    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">test_smeft_wet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="n">wc_WET_random</span> <span class="o">=</span> <span class="n">wc_SMEFT_random</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;WET&#39;</span><span class="p">,</span> <span class="s1">&#39;JMS&#39;</span><span class="p">)</span>
-    <span class="n">wc_WET_random</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-wcxf.matchers.test_smeft_wet.TestSMEFTWET.test_warsaw_Bern', this);">Show source &equiv;</a></p>
+  <div id="source-wcxf.matchers.test_smeft_wet.TestSMEFTWET.test_warsaw_Bern" class="source">
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">test_warsaw_Bern</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">wcW</span> <span class="ow">in</span> <span class="p">[</span><span class="n">wc_Warsaw_random</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal1</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal2</span><span class="p">]:</span>
+        <span class="n">wc</span> <span class="o">=</span> <span class="n">wcW</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;WET&#39;</span><span class="p">,</span> <span class="s1">&#39;Bern&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">eft</span><span class="p">,</span> <span class="s1">&#39;WET&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="s1">&#39;Bern&#39;</span><span class="p">)</span>
+        <span class="n">wc</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="wcxf.matchers.test_smeft_wet.TestSMEFTWET.test_warsaw_EOS">
+    <p>def <span class="ident">test_warsaw_EOS</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-wcxf.matchers.test_smeft_wet.TestSMEFTWET.test_warsaw_EOS', this);">Show source &equiv;</a></p>
+  <div id="source-wcxf.matchers.test_smeft_wet.TestSMEFTWET.test_warsaw_EOS" class="source">
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">test_warsaw_EOS</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">wcW</span> <span class="ow">in</span> <span class="p">[</span><span class="n">wc_Warsaw_random</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal1</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal2</span><span class="p">]:</span>
+        <span class="n">wc</span> <span class="o">=</span> <span class="n">wcW</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;WET&#39;</span><span class="p">,</span> <span class="s1">&#39;EOS&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">eft</span><span class="p">,</span> <span class="s1">&#39;WET&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="s1">&#39;EOS&#39;</span><span class="p">)</span>
+        <span class="n">wc</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="wcxf.matchers.test_smeft_wet.TestSMEFTWET.test_warsaw_flavio">
+    <p>def <span class="ident">test_warsaw_flavio</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-wcxf.matchers.test_smeft_wet.TestSMEFTWET.test_warsaw_flavio', this);">Show source &equiv;</a></p>
+  <div id="source-wcxf.matchers.test_smeft_wet.TestSMEFTWET.test_warsaw_flavio" class="source">
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">test_warsaw_flavio</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">wcW</span> <span class="ow">in</span> <span class="p">[</span><span class="n">wc_Warsaw_random</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal1</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal2</span><span class="p">]:</span>
+        <span class="n">wc</span> <span class="o">=</span> <span class="n">wcW</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;WET&#39;</span><span class="p">,</span> <span class="s1">&#39;flavio&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">eft</span><span class="p">,</span> <span class="s1">&#39;WET&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="s1">&#39;flavio&#39;</span><span class="p">)</span>
+        <span class="n">wc</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="wcxf.matchers.test_smeft_wet.TestSMEFTWET.test_warsaw_jms">
+    <p>def <span class="ident">test_warsaw_jms</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-wcxf.matchers.test_smeft_wet.TestSMEFTWET.test_warsaw_jms', this);">Show source &equiv;</a></p>
+  <div id="source-wcxf.matchers.test_smeft_wet.TestSMEFTWET.test_warsaw_jms" class="source">
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">test_warsaw_jms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">wcW</span> <span class="ow">in</span> <span class="p">[</span><span class="n">wc_Warsaw_random</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal1</span><span class="p">,</span> <span class="n">wc_Warsaw_minimal2</span><span class="p">]:</span>
+        <span class="n">wc</span> <span class="o">=</span> <span class="n">wcW</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;WET&#39;</span><span class="p">,</span> <span class="s1">&#39;JMS&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">eft</span><span class="p">,</span> <span class="s1">&#39;WET&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">wc</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="s1">&#39;JMS&#39;</span><span class="p">)</span>
+        <span class="n">wc</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
 </pre></div>
 
   </div>
