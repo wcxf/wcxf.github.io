@@ -1464,6 +1464,12 @@ table {
 
     <span class="k">def</span> <span class="nf">_markdown_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">md</span> <span class="o">=</span> <span class="s2">&quot;## Sectors</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="n">md</span> <span class="o">+=</span> <span class="s2">&quot;The effective Lagrangian is defined as</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="c1"># general definition of Leff according to WCxf papaer</span>
+        <span class="n">md</span> <span class="o">+=</span> <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$$\mathcal L_\text{eff} = -\mathcal H_\text{eff} =&quot;</span>
+               <span class="sa">r</span><span class="s2">&quot;\sum_{O_i= O_i^\dagger} C_i \, O_i + \sum_{O_i\neq O_i^\dagger}&quot;</span>
+               <span class="sa">r</span><span class="s2">&quot;\left( C_i \, O_i + C^*_i \, O^\dagger_i\right).$$&quot;</span><span class="p">)</span>
+        <span class="n">md</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span>
         <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">wcs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sectors</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">md</span> <span class="o">+=</span> <span class="s2">&quot;### `{}`</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">wcs</span><span class="p">:</span>
@@ -1855,6 +1861,12 @@ See https://stackoverflow.com/a/26151604.</p></div>
 
     <span class="k">def</span> <span class="nf">_markdown_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">md</span> <span class="o">=</span> <span class="s2">&quot;## Sectors</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="n">md</span> <span class="o">+=</span> <span class="s2">&quot;The effective Lagrangian is defined as</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="c1"># general definition of Leff according to WCxf papaer</span>
+        <span class="n">md</span> <span class="o">+=</span> <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$$\mathcal L_\text{eff} = -\mathcal H_\text{eff} =&quot;</span>
+               <span class="sa">r</span><span class="s2">&quot;\sum_{O_i= O_i^\dagger} C_i \, O_i + \sum_{O_i\neq O_i^\dagger}&quot;</span>
+               <span class="sa">r</span><span class="s2">&quot;\left( C_i \, O_i + C^*_i \, O^\dagger_i\right).$$&quot;</span><span class="p">)</span>
+        <span class="n">md</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span>
         <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">wcs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sectors</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">md</span> <span class="o">+=</span> <span class="s2">&quot;### `{}`</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">wcs</span><span class="p">:</span>

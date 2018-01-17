@@ -44,23 +44,17 @@ Basis used by the FormFlavor package
 
 [List of operators (PDF)](/assets/pdf/WET.formflavor.pdf)
 
-### Basis `Bern`
-
-Basis suggested by Aebischer, Fael, Grueb, and Virto (arXiv:1704.06639). Neutrinos are in the flavor basis.
-
-[List of operators (PDF)](/assets/pdf/WET.Bern.pdf)
-
 ### Basis `JMS`
 
 Basis suggested by Jenkins, Manohar, and Stoffer (arXiv:1709.04486). Currently only includes baryon and lepton number conserving operators. Neutrinos are in the flavour basis.
 
 [List of operators (PDF)](/assets/pdf/WET.JMS.pdf)
 
-### Basis `FlavorKit`
+### Basis `flavio`
 
-Basis used by the FlavorKit and SPheno packages
+Basis used by the flavio package. Neutrinos are in the flavour basis.
 
-[List of operators (PDF)](/assets/pdf/WET.FlavorKit.pdf)
+[List of operators (PDF)](/assets/pdf/WET.flavio.pdf)
 
 ### Basis `EOS`
 
@@ -68,11 +62,17 @@ Basis used by the EOS package
 
 [List of operators (PDF)](/assets/pdf/WET.EOS.pdf)
 
-### Basis `flavio`
+### Basis `Bern`
 
-Basis used by the flavio package. Neutrinos are in the flavour basis.
+Basis suggested by Aebischer, Fael, Grueb, and Virto (arXiv:1704.06639). Neutrinos are in the flavor basis.
 
-[List of operators (PDF)](/assets/pdf/WET.flavio.pdf)
+[List of operators (PDF)](/assets/pdf/WET.Bern.pdf)
+
+### Basis `FlavorKit`
+
+Basis used by the FlavorKit and SPheno packages
+
+[List of operators (PDF)](/assets/pdf/WET.FlavorKit.pdf)
 
 ## EFT `WET-2`
 
@@ -94,15 +94,15 @@ Weak effective theory with three dynamical quark flavours and two charged lepton
 
 [List of operators (PDF)](/assets/pdf/WET-3.Bern.pdf)
 
+### Basis `flavio`
+
+[List of operators (PDF)](/assets/pdf/WET-3.flavio.pdf)
+
 ### Basis `JMS`
 
 Variant of the basis suggested by Jenkins, Manohar, and Stoffer (arXiv:1709.04486) with only three dynamical quark flavors.
 
 [List of operators (PDF)](/assets/pdf/WET-3.JMS.pdf)
-
-### Basis `flavio`
-
-[List of operators (PDF)](/assets/pdf/WET-3.flavio.pdf)
 
 ## EFT `WET-4`
 
@@ -113,13 +113,13 @@ Weak effective theory with four dynamical quark flavours valid between the charm
 
 [List of operators (PDF)](/assets/pdf/WET-4.Bern.pdf)
 
+### Basis `flavio`
+
+[List of operators (PDF)](/assets/pdf/WET-4.flavio.pdf)
+
 ### Basis `JMS`
 
 Variant of the basis suggested by Jenkins, Manohar, and Stoffer (arXiv:1709.04486) with only four dynamical quark flavors.
 
 [List of operators (PDF)](/assets/pdf/WET-4.JMS.pdf)
-
-### Basis `flavio`
-
-[List of operators (PDF)](/assets/pdf/WET-4.flavio.pdf)
 
