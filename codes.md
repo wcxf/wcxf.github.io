@@ -14,16 +14,15 @@ Code | Import  | Export |
 -----|---------|--------
 [DsixTools](#dsixtools) | ✓ | ✓ |
 [EOS](#eos) | ✓ |
-[flavio](#flavio) | ✓ |
+[flavio](#flavio) | ✓ | ✓ |
 [FlavorKit](#flavorkit) |  | ✓  
 [FormFlavor](#formflavor) | ✓ | ✓  
-[python-smeftrunner](#python-smeftrunner) | ✓ | ✓ |
+[wilson](#wilson) | ✓ | ✓ |
 [SMEFT Feynman Rules](#smeft-feynman-rules) | ✓ | ✓ |
-[SMEFTsim](#smeftsim) | ✓<sup>1</sup> |
+[SMEFTsim](#smeftsim) | ✓ |
 [SPheno](#spheno) |  | ✓  
 [wcxf-python](#wcxf-python) | ✓ | ✓ |
 
-<sup>1</sup> under development
 
 ## DsixTools
 
@@ -60,11 +59,11 @@ if the flag `79` in the Les Houches input file is set to `1`.
 
 WCxf files can be imported and exported using the functions `WriteWilsonToJSON` and `ReadWilsonFromJSON`.
 
-## python-smeftrunner
+## wilson
 
-[python-smeftrunner](https://github.com/DsixTools/python-smeftrunner) is a Python package implementing approximately the same functionality as the SMEFTrunner module of [DsixTools](https://dsixtools.github.io/), i.e. RG evolution in the SMEFT.
+[wilson](https://wilson-eft.github.io) is a Python package implementing the complete one-loop running of dimesion-6 SMEFT operators, tree-level matching to the weak effective theory, and complete one-loop QCD and QED running below the electroweak scale.
 
-Wilson coefficients can be imported and exported to and from files or from `wcxf.WC` instances using the [WCxf Python API](python.html).
+The package is built directly on top of the [WCxf Python API](python.html) and uses `wcxf.WC` instances for internal data representation throughout.
 
 ## SMEFT Feynman Rules
 
