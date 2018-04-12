@@ -1055,10 +1055,13 @@ table {
       
   <ul>
     <li class="mono"><a href="#wcxf.cli.convert">convert</a></li>
+    <li class="mono"><a href="#wcxf.cli.dsixtools2wcxf">dsixtools2wcxf</a></li>
     <li class="mono"><a href="#wcxf.cli.eos">eos</a></li>
     <li class="mono"><a href="#wcxf.cli.match">match</a></li>
+    <li class="mono"><a href="#wcxf.cli.smeftsim">smeftsim</a></li>
     <li class="mono"><a href="#wcxf.cli.translate">translate</a></li>
     <li class="mono"><a href="#wcxf.cli.validate">validate</a></li>
+    <li class="mono"><a href="#wcxf.cli.wcxf2dsixtools">wcxf2dsixtools</a></li>
     <li class="mono"><a href="#wcxf.cli.wcxf_cli">wcxf_cli</a></li>
   </ul>
 
@@ -1087,6 +1090,7 @@ table {
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">import</span> <span class="nn">pylha</span>
 
 
 <span class="k">def</span> <span class="nf">wcxf_cli</span><span class="p">():</span>
@@ -1234,6 +1238,76 @@ table {
     <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">eos_dict</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">default_flow_style</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
     <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
     <span class="k">return</span> <span class="mi">0</span>
+
+
+<span class="k">def</span> <span class="nf">smeftsim</span><span class="p">():</span>
+    <span class="kn">from</span> <span class="nn">wcxf.converters.smeftsim</span> <span class="kn">import</span> <span class="n">initialize_smeftsim_card</span><span class="p">,</span> <span class="n">smeftsim_card_fill</span><span class="p">,</span> <span class="n">smeftsim_card_text</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Command line script to convert a WCxf file to a MadGraph param_card file for SMEFTsim.&quot;&quot;&quot;</span><span class="p">,</span>
+                                     <span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">RawTextHelpFormatter</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;FILE&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Input file. Must be specified.&quot;</span><span class="p">,</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">FileType</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;{}&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--output&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output file. Default is wcxf2smeftsim_param_card.dat.&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;wcxf2smeftsim_param_card.dat&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--input-scheme&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Input parameters set. Can be either alpha (alpha_ew, m_Z, G_F) or mw (m_W, m_Z, G_F). Default is alpha.&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span><span class="s1">&#39;mw&#39;</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;alpha&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--cutoff-scale&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Value of the EFT cutoff scale in GeV. Default is 1 TeV.&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--model-set&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;SMEFTsim model set to be used. Can be either A or B, default is A.&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;B&#39;</span><span class="p">],</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="p">)</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+
+    <span class="c1"># read in &amp; validate WCxf file</span>
+    <span class="n">wc</span> <span class="o">=</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">WC</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">FILE</span><span class="p">)</span>
+    <span class="n">wc</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+    <span class="c1"># check that the input is in the Warsaw mass basis. quit otherwise.</span>
+    <span class="k">if</span> <span class="n">wc</span><span class="o">.</span><span class="n">basis</span> <span class="o">!=</span> <span class="s2">&quot;Warsaw mass&quot;</span><span class="p">:</span>
+      <span class="k">print</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">WARNING: The input file must be in the &#39;Warsaw mass&#39; basis!</span>
+<span class="s1">Please translate into &#39;Warsaw mass&#39; before converting to SMEFTsim.</span>
+
+<span class="s1">Press &#39;i&#39; to ignore this warning or any other key to exit.&#39;&#39;&#39;</span><span class="p">)</span>
+
+      <span class="n">key</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>
+      <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s1">&#39;i&#39;</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">!=</span> <span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="n">quit</span><span class="p">()</span>
+
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+    <span class="c1"># initialize and fill the dictionary for the param_card</span>
+    <span class="n">card</span> <span class="o">=</span> <span class="n">initialize_smeftsim_card</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">model_set</span><span class="p">)</span>
+    <span class="n">card_filled</span> <span class="o">=</span> <span class="n">smeftsim_card_fill</span><span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="n">wc</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">model_set</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">cutoff_scale</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">input_scheme</span><span class="p">)</span>
+
+    <span class="c1"># write output file</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">smeftsim_card_text</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">model_set</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">input_scheme</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">pylha</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">card_filled</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;lha&#39;</span><span class="p">,</span> <span class="n">stream</span> <span class="o">=</span> <span class="n">f</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">smeftsim_card_text</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">model_set</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">input_scheme</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="mi">0</span>
+
+
+<span class="k">def</span> <span class="nf">wcxf2dsixtools</span><span class="p">():</span>
+    <span class="kn">from</span> <span class="nn">wcxf.converters</span> <span class="kn">import</span> <span class="n">dsixtools</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Command line script to convert a WCxf file to a DsixTools Wilson coefficient file.&quot;&quot;&quot;</span><span class="p">,</span>
+                                     <span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">RawTextHelpFormatter</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;FILE&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Input file. If </span><span class="se">\&quot;</span><span class="s2">-</span><span class="se">\&quot;</span><span class="s2">, read from standard input&quot;</span><span class="p">,</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">FileType</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--output&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output file. If absent, print to standard output&quot;</span><span class="p">,</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">FileType</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">wc</span> <span class="o">=</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">WC</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">FILE</span><span class="p">)</span>
+    <span class="n">wc</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+    <span class="n">dsixtools</span><span class="o">.</span><span class="n">wcxf2dsixtools</span><span class="p">(</span><span class="n">wc</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">0</span>
+
+
+<span class="k">def</span> <span class="nf">dsixtools2wcxf</span><span class="p">():</span>
+    <span class="kn">from</span> <span class="nn">wcxf.converters</span> <span class="kn">import</span> <span class="n">dsixtools</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Command line script to convert DsixTools output files to a WCxf file.&quot;&quot;&quot;</span><span class="p">,</span>
+                                     <span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">RawTextHelpFormatter</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;FILE&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Input file(s).&quot;</span><span class="p">,</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">FileType</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--output&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output file. If absent, print to standard output&quot;</span><span class="p">,</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">FileType</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">dsixtools</span><span class="o">.</span><span class="n">dsixtools2wcxf</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">FILE</span><span class="p">),</span> <span class="n">stream</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">0</span>
 </pre></div>
 
   </div>
@@ -1261,6 +1335,36 @@ table {
         <span class="n">convert_json</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">FILE</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">FORMAT</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;yaml&#39;</span><span class="p">:</span>
         <span class="n">convert_yaml</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">FILE</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      
+  <div class="item">
+    <div class="name def" id="wcxf.cli.dsixtools2wcxf">
+    <p>def <span class="ident">dsixtools2wcxf</span>(</p><p>)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-wcxf.cli.dsixtools2wcxf', this);">Show source &equiv;</a></p>
+  <div id="source-wcxf.cli.dsixtools2wcxf" class="source">
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">dsixtools2wcxf</span><span class="p">():</span>
+    <span class="kn">from</span> <span class="nn">wcxf.converters</span> <span class="kn">import</span> <span class="n">dsixtools</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Command line script to convert DsixTools output files to a WCxf file.&quot;&quot;&quot;</span><span class="p">,</span>
+                                     <span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">RawTextHelpFormatter</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;FILE&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Input file(s).&quot;</span><span class="p">,</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">FileType</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--output&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output file. If absent, print to standard output&quot;</span><span class="p">,</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">FileType</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">dsixtools</span><span class="o">.</span><span class="n">dsixtools2wcxf</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">FILE</span><span class="p">),</span> <span class="n">stream</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">0</span>
 </pre></div>
 
   </div>
@@ -1347,6 +1451,65 @@ table {
   
       
   <div class="item">
+    <div class="name def" id="wcxf.cli.smeftsim">
+    <p>def <span class="ident">smeftsim</span>(</p><p>)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-wcxf.cli.smeftsim', this);">Show source &equiv;</a></p>
+  <div id="source-wcxf.cli.smeftsim" class="source">
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">smeftsim</span><span class="p">():</span>
+    <span class="kn">from</span> <span class="nn">wcxf.converters.smeftsim</span> <span class="kn">import</span> <span class="n">initialize_smeftsim_card</span><span class="p">,</span> <span class="n">smeftsim_card_fill</span><span class="p">,</span> <span class="n">smeftsim_card_text</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Command line script to convert a WCxf file to a MadGraph param_card file for SMEFTsim.&quot;&quot;&quot;</span><span class="p">,</span>
+                                     <span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">RawTextHelpFormatter</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;FILE&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Input file. Must be specified.&quot;</span><span class="p">,</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">FileType</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;{}&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--output&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output file. Default is wcxf2smeftsim_param_card.dat.&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;wcxf2smeftsim_param_card.dat&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--input-scheme&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Input parameters set. Can be either alpha (alpha_ew, m_Z, G_F) or mw (m_W, m_Z, G_F). Default is alpha.&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span><span class="s1">&#39;mw&#39;</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;alpha&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--cutoff-scale&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Value of the EFT cutoff scale in GeV. Default is 1 TeV.&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--model-set&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;SMEFTsim model set to be used. Can be either A or B, default is A.&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;B&#39;</span><span class="p">],</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="p">)</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+
+    <span class="c1"># read in &amp; validate WCxf file</span>
+    <span class="n">wc</span> <span class="o">=</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">WC</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">FILE</span><span class="p">)</span>
+    <span class="n">wc</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+    <span class="c1"># check that the input is in the Warsaw mass basis. quit otherwise.</span>
+    <span class="k">if</span> <span class="n">wc</span><span class="o">.</span><span class="n">basis</span> <span class="o">!=</span> <span class="s2">&quot;Warsaw mass&quot;</span><span class="p">:</span>
+      <span class="k">print</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">WARNING: The input file must be in the &#39;Warsaw mass&#39; basis!</span>
+<span class="s1">Please translate into &#39;Warsaw mass&#39; before converting to SMEFTsim.</span>
+
+<span class="s1">Press &#39;i&#39; to ignore this warning or any other key to exit.&#39;&#39;&#39;</span><span class="p">)</span>
+
+      <span class="n">key</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>
+      <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s1">&#39;i&#39;</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">!=</span> <span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="n">quit</span><span class="p">()</span>
+
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+    <span class="c1"># initialize and fill the dictionary for the param_card</span>
+    <span class="n">card</span> <span class="o">=</span> <span class="n">initialize_smeftsim_card</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">model_set</span><span class="p">)</span>
+    <span class="n">card_filled</span> <span class="o">=</span> <span class="n">smeftsim_card_fill</span><span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="n">wc</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">model_set</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">cutoff_scale</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">input_scheme</span><span class="p">)</span>
+
+    <span class="c1"># write output file</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">smeftsim_card_text</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">model_set</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">input_scheme</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">pylha</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">card_filled</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;lha&#39;</span><span class="p">,</span> <span class="n">stream</span> <span class="o">=</span> <span class="n">f</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">smeftsim_card_text</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">model_set</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">input_scheme</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="mi">0</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      
+  <div class="item">
     <div class="name def" id="wcxf.cli.translate">
     <p>def <span class="ident">translate</span>(</p><p>args)</p>
     </div>
@@ -1393,6 +1556,38 @@ table {
         <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;TYPE should be &#39;eft&#39;, &#39;basis&#39;, or &#39;wc&#39;&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="mi">1</span>
     <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Validation successful.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">0</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      
+  <div class="item">
+    <div class="name def" id="wcxf.cli.wcxf2dsixtools">
+    <p>def <span class="ident">wcxf2dsixtools</span>(</p><p>)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-wcxf.cli.wcxf2dsixtools', this);">Show source &equiv;</a></p>
+  <div id="source-wcxf.cli.wcxf2dsixtools" class="source">
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">wcxf2dsixtools</span><span class="p">():</span>
+    <span class="kn">from</span> <span class="nn">wcxf.converters</span> <span class="kn">import</span> <span class="n">dsixtools</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Command line script to convert a WCxf file to a DsixTools Wilson coefficient file.&quot;&quot;&quot;</span><span class="p">,</span>
+                                     <span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">RawTextHelpFormatter</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;FILE&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Input file. If </span><span class="se">\&quot;</span><span class="s2">-</span><span class="se">\&quot;</span><span class="s2">, read from standard input&quot;</span><span class="p">,</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">FileType</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--output&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output file. If absent, print to standard output&quot;</span><span class="p">,</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">FileType</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">wc</span> <span class="o">=</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">WC</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">FILE</span><span class="p">)</span>
+    <span class="n">wc</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+    <span class="n">dsixtools</span><span class="o">.</span><span class="n">wcxf2dsixtools</span><span class="p">(</span><span class="n">wc</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
     <span class="k">return</span> <span class="mi">0</span>
 </pre></div>
 

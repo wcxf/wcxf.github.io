@@ -1125,6 +1125,7 @@ table {
     <li class="mono"><a href="#wcxf.test_wcxf.TestBasis.test_basis">test_basis</a></li>
     <li class="mono"><a href="#wcxf.test_wcxf.TestBasis.test_eft">test_eft</a></li>
     <li class="mono"><a href="#wcxf.test_wcxf.TestBasis.test_inheritance">test_inheritance</a></li>
+    <li class="mono"><a href="#wcxf.test_wcxf.TestBasis.test_inheritance_modifiedsector">test_inheritance_modifiedsector</a></li>
     <li class="mono"><a href="#wcxf.test_wcxf.TestBasis.test_matcher">test_matcher</a></li>
     <li class="mono"><a href="#wcxf.test_wcxf.TestBasis.test_translator">test_translator</a></li>
     <li class="mono"><a href="#wcxf.test_wcxf.TestBasis.test_wc">test_wc</a></li>
@@ -1244,6 +1245,15 @@ table {
         <span class="n">f</span> <span class="o">=</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;wcxf&#39;</span><span class="p">,</span> <span class="s1">&#39;data/test.basis2.yml&#39;</span><span class="p">)</span>
         <span class="n">child</span> <span class="o">=</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">Basis</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertDictEqual</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">sectors</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">sectors</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_inheritance_modifiedsector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;wcxf&#39;</span><span class="p">,</span> <span class="s1">&#39;data/test.basis1.yml&#39;</span><span class="p">)</span>
+        <span class="n">parent</span> <span class="o">=</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">Basis</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;wcxf&#39;</span><span class="p">,</span> <span class="s1">&#39;data/test.basis3.yml&#39;</span><span class="p">)</span>
+        <span class="n">child</span> <span class="o">=</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">Basis</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">sectors</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="nb">set</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">sectors</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">sectors</span><span class="p">[</span><span class="s1">&#39;My Sector 1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="p">{</span><span class="s1">&#39;C_1&#39;</span><span class="p">,</span> <span class="s1">&#39;C_2&#39;</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">sectors</span><span class="p">[</span><span class="s1">&#39;My Sector 1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="p">{</span><span class="s1">&#39;C_1&#39;</span><span class="p">})</span>
 </pre></div>
 
   </div>
@@ -1370,6 +1380,15 @@ in order to be run.</p>
         <span class="n">f</span> <span class="o">=</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;wcxf&#39;</span><span class="p">,</span> <span class="s1">&#39;data/test.basis2.yml&#39;</span><span class="p">)</span>
         <span class="n">child</span> <span class="o">=</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">Basis</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertDictEqual</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">sectors</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">sectors</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_inheritance_modifiedsector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;wcxf&#39;</span><span class="p">,</span> <span class="s1">&#39;data/test.basis1.yml&#39;</span><span class="p">)</span>
+        <span class="n">parent</span> <span class="o">=</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">Basis</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;wcxf&#39;</span><span class="p">,</span> <span class="s1">&#39;data/test.basis3.yml&#39;</span><span class="p">)</span>
+        <span class="n">child</span> <span class="o">=</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">Basis</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">sectors</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="nb">set</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">sectors</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">sectors</span><span class="p">[</span><span class="s1">&#39;My Sector 1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="p">{</span><span class="s1">&#39;C_1&#39;</span><span class="p">,</span> <span class="s1">&#39;C_2&#39;</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">sectors</span><span class="p">[</span><span class="s1">&#39;My Sector 1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="p">{</span><span class="s1">&#39;C_1&#39;</span><span class="p">})</span>
 </pre></div>
 
   </div>
@@ -3639,6 +3658,33 @@ block, allowing further test code to be executed.</p></div>
     <span class="n">f</span> <span class="o">=</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;wcxf&#39;</span><span class="p">,</span> <span class="s1">&#39;data/test.basis2.yml&#39;</span><span class="p">)</span>
     <span class="n">child</span> <span class="o">=</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">Basis</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">assertDictEqual</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">sectors</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">sectors</span><span class="p">)</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="wcxf.test_wcxf.TestBasis.test_inheritance_modifiedsector">
+    <p>def <span class="ident">test_inheritance_modifiedsector</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-wcxf.test_wcxf.TestBasis.test_inheritance_modifiedsector', this);">Show source &equiv;</a></p>
+  <div id="source-wcxf.test_wcxf.TestBasis.test_inheritance_modifiedsector" class="source">
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">test_inheritance_modifiedsector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;wcxf&#39;</span><span class="p">,</span> <span class="s1">&#39;data/test.basis1.yml&#39;</span><span class="p">)</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">Basis</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;wcxf&#39;</span><span class="p">,</span> <span class="s1">&#39;data/test.basis3.yml&#39;</span><span class="p">)</span>
+    <span class="n">child</span> <span class="o">=</span> <span class="n">wcxf</span><span class="o">.</span><span class="n">Basis</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">sectors</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="nb">set</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">sectors</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">sectors</span><span class="p">[</span><span class="s1">&#39;My Sector 1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="p">{</span><span class="s1">&#39;C_1&#39;</span><span class="p">,</span> <span class="s1">&#39;C_2&#39;</span><span class="p">})</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">sectors</span><span class="p">[</span><span class="s1">&#39;My Sector 1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="p">{</span><span class="s1">&#39;C_1&#39;</span><span class="p">})</span>
 </pre></div>
 
   </div>
