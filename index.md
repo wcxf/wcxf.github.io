@@ -24,4 +24,4 @@ WCxf is a data exchange format to interface different tools in particle physics 
 
 This web page provides an overview of the existing [EFTs and bases](bases.html), [implementations](codes.html) in public codes, instructions how to [contribute](contribute.html), and documentation for the [Python](python.html) and [command-line](cli.html) tools.
 
-Associated code as well as EFT and basis definition files can be foud [on Github](https://github.com/wcxf).
+Associated code as well as EFT and basis definition files can be found [on Github](https://github.com/wcxf).
