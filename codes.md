@@ -20,6 +20,7 @@ Code | Import  | Export |
 [wilson](#wilson) | ✓ | ✓ |
 [SMEFT Feynman Rules](#smeft-feynman-rules) | ✓ | ✓ |
 [SMEFTsim](#smeftsim) | ✓ |
+[smelli](#smelli) | ✓ | ✓  
 [SPheno](#spheno) |  | ✓  
 [wcxf-python](#wcxf-python) | ✓ | ✓ |
 
@@ -79,6 +80,11 @@ Wilson coefficient values can be imported and exported using the `WCXFtoSMEFT` a
 [SMEFTsim](https://arxiv.org/abs/1709.06492) is an implementation of the SMEFT in [FeynRules](http://feynrules.irmp.ucl.ac.be/).
 
 A future version of the wcxf-python package will contain the command-line script `wcxf2smeftsim` that will allow to convert a WCxf file to a `param_card.dat` file that can be used to run numerical simulations in MadGraph5_aMC@NLO.
+
+## smelli
+
+[smelli](https://github.com/smelli/smelli) is a Python package providing a global likelihood in SMEFT Wilson coefficient space (see the [related publication](https://arxiv.org/abs/1810.07698)). The package makes use  of the [WCxf Python API](python.html) and [wilson](#wilson) for dealing with Wilson coefficients in WCxf format.
+
 
 ## SPheno
 
