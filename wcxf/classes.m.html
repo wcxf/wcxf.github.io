@@ -1619,16 +1619,24 @@ table {
         <span class="n">html</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">_repr_html_</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">html</span>
 
-    <span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to_basis</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to_basis</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">sectors</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Translate the Wilson coefficients to a different basis.</span>
-<span class="sd">        Returns a WC instance.&quot;&quot;&quot;</span>
+<span class="sd">        Returns a WC instance.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - `to_basis`: name of output basis</span>
+<span class="sd">        - parameters: an optional dictionary of parameters specific to the</span>
+<span class="sd">          translation function</span>
+<span class="sd">        - sectors: an optional iterable of sector names of interest that the</span>
+<span class="sd">          translator function may choose (but is not obliged) to limit itself</span>
+<span class="sd">          to in the output.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">to_basis</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span>  <span class="c1"># nothing to do</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">translator</span> <span class="o">=</span> <span class="n">Translator</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">eft</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="n">to_basis</span><span class="p">]</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No translator from basis {} to {} found.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="n">to_basis</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">translator</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">translator</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">sectors</span><span class="o">=</span><span class="n">sectors</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to_eft</span><span class="p">,</span> <span class="n">to_basis</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Match the Wilson coefficients to a different EFT.</span>
@@ -1652,9 +1660,20 @@ table {
         <span class="bp">self</span><span class="o">.</span><span class="n">to_basis</span> <span class="o">=</span> <span class="n">to_basis</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">function</span>
 
-    <span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">WC_in</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Translate a WC object from `from_basis` to `to_basis`.&quot;&quot;&quot;</span>
-        <span class="n">dict_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">WC_in</span><span class="o">.</span><span class="n">dict</span><span class="p">,</span> <span class="n">WC_in</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">WC_in</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">sectors</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Translate a WC object from `from_basis` to `to_basis`.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - `WC_in`: the input `WC` instance</span>
+<span class="sd">        - parameters: an optional dictionary of parameters specific to the</span>
+<span class="sd">          translation function</span>
+<span class="sd">        - sectors: an optional iterable of sector names of interest that the</span>
+<span class="sd">          translator function may choose (but is not obliged) to limit itself</span>
+<span class="sd">          to in the output.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">sectors</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">dict_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">WC_in</span><span class="o">.</span><span class="n">dict</span><span class="p">,</span> <span class="n">WC_in</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dict_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">WC_in</span><span class="o">.</span><span class="n">dict</span><span class="p">,</span> <span class="n">WC_in</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">sectors</span><span class="o">=</span><span class="n">sectors</span><span class="p">)</span>
         <span class="c1"># filter out zero values</span>
         <span class="n">dict_out</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dict_out</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">}</span>
         <span class="n">values</span> <span class="o">=</span> <span class="n">WC</span><span class="o">.</span><span class="n">dict2values</span><span class="p">(</span><span class="n">dict_out</span><span class="p">)</span>
@@ -2971,9 +2990,20 @@ type(name, bases, dict) -&gt; a new type</p></div>
         <span class="bp">self</span><span class="o">.</span><span class="n">to_basis</span> <span class="o">=</span> <span class="n">to_basis</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">function</span>
 
-    <span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">WC_in</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Translate a WC object from `from_basis` to `to_basis`.&quot;&quot;&quot;</span>
-        <span class="n">dict_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">WC_in</span><span class="o">.</span><span class="n">dict</span><span class="p">,</span> <span class="n">WC_in</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">WC_in</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">sectors</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Translate a WC object from `from_basis` to `to_basis`.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - `WC_in`: the input `WC` instance</span>
+<span class="sd">        - parameters: an optional dictionary of parameters specific to the</span>
+<span class="sd">          translation function</span>
+<span class="sd">        - sectors: an optional iterable of sector names of interest that the</span>
+<span class="sd">          translator function may choose (but is not obliged) to limit itself</span>
+<span class="sd">          to in the output.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">sectors</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">dict_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">WC_in</span><span class="o">.</span><span class="n">dict</span><span class="p">,</span> <span class="n">WC_in</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dict_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">WC_in</span><span class="o">.</span><span class="n">dict</span><span class="p">,</span> <span class="n">WC_in</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">sectors</span><span class="o">=</span><span class="n">sectors</span><span class="p">)</span>
         <span class="c1"># filter out zero values</span>
         <span class="n">dict_out</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dict_out</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">}</span>
         <span class="n">values</span> <span class="o">=</span> <span class="n">WC</span><span class="o">.</span><span class="n">dict2values</span><span class="p">(</span><span class="n">dict_out</span><span class="p">)</span>
@@ -3034,19 +3064,36 @@ type(name, bases, dict) -&gt; a new type</p></div>
             
   <div class="item">
     <div class="name def" id="wcxf.classes.Translator.translate">
-    <p>def <span class="ident">translate</span>(</p><p>self, WC_in, parameters=None)</p>
+    <p>def <span class="ident">translate</span>(</p><p>self, WC_in, parameters=None, sectors=None)</p>
     </div>
     
 
     
   
-    <div class="desc"><p>Translate a WC object from <code>from_basis</code> to <code>to_basis</code>.</p></div>
+    <div class="desc"><p>Translate a WC object from <code>from_basis</code> to <code>to_basis</code>.</p>
+<p>Parameters:
+- <code>WC_in</code>: the input <code>WC</code> instance
+- parameters: an optional dictionary of parameters specific to the
+  translation function
+- sectors: an optional iterable of sector names of interest that the
+  translator function may choose (but is not obliged) to limit itself
+  to in the output.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-wcxf.classes.Translator.translate', this);">Show source &equiv;</a></p>
   <div id="source-wcxf.classes.Translator.translate" class="source">
-    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">WC_in</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Translate a WC object from `from_basis` to `to_basis`.&quot;&quot;&quot;</span>
-    <span class="n">dict_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">WC_in</span><span class="o">.</span><span class="n">dict</span><span class="p">,</span> <span class="n">WC_in</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">WC_in</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">sectors</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Translate a WC object from `from_basis` to `to_basis`.</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    - `WC_in`: the input `WC` instance</span>
+<span class="sd">    - parameters: an optional dictionary of parameters specific to the</span>
+<span class="sd">      translation function</span>
+<span class="sd">    - sectors: an optional iterable of sector names of interest that the</span>
+<span class="sd">      translator function may choose (but is not obliged) to limit itself</span>
+<span class="sd">      to in the output.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">sectors</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dict_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">WC_in</span><span class="o">.</span><span class="n">dict</span><span class="p">,</span> <span class="n">WC_in</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dict_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">WC_in</span><span class="o">.</span><span class="n">dict</span><span class="p">,</span> <span class="n">WC_in</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">sectors</span><span class="o">=</span><span class="n">sectors</span><span class="p">)</span>
     <span class="c1"># filter out zero values</span>
     <span class="n">dict_out</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dict_out</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">}</span>
     <span class="n">values</span> <span class="o">=</span> <span class="n">WC</span><span class="o">.</span><span class="n">dict2values</span><span class="p">(</span><span class="n">dict_out</span><span class="p">)</span>
@@ -3302,16 +3349,24 @@ type(name, bases, dict) -&gt; a new type</p></div>
         <span class="n">html</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">_repr_html_</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">html</span>
 
-    <span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to_basis</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to_basis</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">sectors</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Translate the Wilson coefficients to a different basis.</span>
-<span class="sd">        Returns a WC instance.&quot;&quot;&quot;</span>
+<span class="sd">        Returns a WC instance.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - `to_basis`: name of output basis</span>
+<span class="sd">        - parameters: an optional dictionary of parameters specific to the</span>
+<span class="sd">          translation function</span>
+<span class="sd">        - sectors: an optional iterable of sector names of interest that the</span>
+<span class="sd">          translator function may choose (but is not obliged) to limit itself</span>
+<span class="sd">          to in the output.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">to_basis</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span>  <span class="c1"># nothing to do</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">translator</span> <span class="o">=</span> <span class="n">Translator</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">eft</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="n">to_basis</span><span class="p">]</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No translator from basis {} to {} found.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="n">to_basis</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">translator</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">translator</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">sectors</span><span class="o">=</span><span class="n">sectors</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to_eft</span><span class="p">,</span> <span class="n">to_basis</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Match the Wilson coefficients to a different EFT.</span>
@@ -3454,27 +3509,41 @@ Returns a WC instance.</p></div>
             
   <div class="item">
     <div class="name def" id="wcxf.classes.WC.translate">
-    <p>def <span class="ident">translate</span>(</p><p>self, to_basis, parameters=None)</p>
+    <p>def <span class="ident">translate</span>(</p><p>self, to_basis, parameters=None, sectors=None)</p>
     </div>
     
 
     
   
     <div class="desc"><p>Translate the Wilson coefficients to a different basis.
-Returns a WC instance.</p></div>
+Returns a WC instance.</p>
+<p>Parameters:
+- <code>to_basis</code>: name of output basis
+- parameters: an optional dictionary of parameters specific to the
+  translation function
+- sectors: an optional iterable of sector names of interest that the
+  translator function may choose (but is not obliged) to limit itself
+  to in the output.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-wcxf.classes.WC.translate', this);">Show source &equiv;</a></p>
   <div id="source-wcxf.classes.WC.translate" class="source">
-    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to_basis</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to_basis</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">sectors</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Translate the Wilson coefficients to a different basis.</span>
-<span class="sd">    Returns a WC instance.&quot;&quot;&quot;</span>
+<span class="sd">    Returns a WC instance.</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    - `to_basis`: name of output basis</span>
+<span class="sd">    - parameters: an optional dictionary of parameters specific to the</span>
+<span class="sd">      translation function</span>
+<span class="sd">    - sectors: an optional iterable of sector names of interest that the</span>
+<span class="sd">      translator function may choose (but is not obliged) to limit itself</span>
+<span class="sd">      to in the output.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">to_basis</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span>  <span class="c1"># nothing to do</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">translator</span> <span class="o">=</span> <span class="n">Translator</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">eft</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="n">to_basis</span><span class="p">]</span>
     <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No translator from basis {} to {} found.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="n">to_basis</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">translator</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">translator</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">sectors</span><span class="o">=</span><span class="n">sectors</span><span class="p">)</span>
 </pre></div>
 
   </div>
