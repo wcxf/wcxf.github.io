@@ -1,4 +1,4 @@
-import wcxf
+from wilson import wcxf
 import subprocess
 from urllib.parse import quote
 
