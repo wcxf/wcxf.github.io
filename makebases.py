@@ -19,7 +19,7 @@ with open('bases.md', 'w') as f:
         if hasattr(eft, 'metadata') and 'description' in eft.metadata:
             f.write(eft.metadata['description'] + "\n\n")
         bases = eft.known_bases
-        for bname in bases:
+        for bname in sorted(bases):
             basis = wcxf.Basis[eft.eft, bname]
             f.write("### Basis `{}`\n\n".format(basis.basis))
             if hasattr(basis, 'metadata') and 'description' in basis.metadata:
