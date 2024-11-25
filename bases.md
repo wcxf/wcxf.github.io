@@ -53,7 +53,7 @@ Basis suggested by Aebischer, Fael, Grueb, and Virto (arXiv:1704.06639). Neutrin
 
 ### Basis `EOS`
 
-Basis used by the EOS package. Neutrinos are in the flavour basis.
+Basis used by the EOS software as of version 0.4 or later. Neutrinos are in the flavour basis.
 
 [List of operators (PDF)](/assets/pdf/WET.EOS.pdf)
 
